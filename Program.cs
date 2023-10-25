@@ -1,3 +1,4 @@
+using PruebaTecnicaMultitenant.Src.Application.UseCases;
 using PruebaTecnicaMultitenant.Src.Domain.Services;
 using PruebaTecnicaMultitenant.Src.Infrastructure.Middlewares;
 using PruebaTecnicaMultitenant.Src.Infrastructure.Services;
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IDbMigrationsService, DbMigrationsService>();
+builder.Services.AddTransient<IOrganizationsService, OrganizationsService>();
+builder.Services.AddTransient<OrganizationsUseCases>();
 
 var app = builder.Build();
 
