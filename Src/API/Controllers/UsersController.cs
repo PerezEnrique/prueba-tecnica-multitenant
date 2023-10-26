@@ -30,7 +30,9 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
                 {
                     Email = createUserDto.Email,
                     Password = createUserDto.Password,
-                    OrganizationId = createUserDto.OrganizationId
+                    Organization = new Organization(){
+                        Id = createUserDto.OrganizationId
+                    }
                 };
 
                 user.Id = await _usersUseCases.Create(user);
@@ -40,7 +42,6 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
                 Response.Headers.Add("Authorization", $"Bearer {token}");
 
                 return CreatedAtAction(nameof(Get), new { id = user.Id }, user.AsDto());
-
             }
             catch (Exception)
             {

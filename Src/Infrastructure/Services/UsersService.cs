@@ -37,7 +37,7 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
                 new {
                     email = user.Email,
                     password = user.Password,
-                    organizationId = user.OrganizationId
+                    organizationId = user.Organization.Id
                 }
             );
         }
@@ -46,7 +46,17 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
         {
             using var connection = new SqliteConnection(_connectionString);
 
-            var sql = @"SELECT * FROM Users WHERE Id = @id";
+            var sql = @"SELECT 
+                            u.Id,
+                            u.Email,
+                            u.Password,
+                            u.OrganizationId,
+                            o.Id,
+                            o.Name,
+                            o.SlugTenant 
+                        FROM Users u
+                        LEFT JOIN Organizations o ON u.OrganizationId = o.Id
+                        WHERE u.Id = @id";
 
             return await connection.QuerySingleOrDefaultAsync<User>(sql, new { id });
         }
@@ -56,7 +66,17 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
         {
             using var connection = new SqliteConnection(_connectionString);
 
-            var sql = @"SELECT * FROM Users WHERE Email = @email";
+            var sql = @"SELECT 
+                            u.Id,
+                            u.Email,
+                            u.Password,
+                            u.OrganizationId,
+                            o.Id,
+                            o.Name,
+                            o.SlugTenant 
+                        FROM Users u
+                        LEFT JOIN Organizations o ON u.OrganizationId = o.Id
+                        WHERE u.email = @email";
             
             return await connection.QuerySingleOrDefaultAsync<User>(sql, new { email });
         }

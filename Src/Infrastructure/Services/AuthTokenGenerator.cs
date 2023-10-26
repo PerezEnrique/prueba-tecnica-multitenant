@@ -24,7 +24,7 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
             {
                 Subject = new ClaimsIdentity(new []{
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                    new Claim(ClaimNames.OrganizationId, user.OrganizationId.ToString())
+                    new Claim(ClaimNames.OrganizationSlug, user.Organization.SlugTenant)
                 }),
                 Expires = DateTime.UtcNow.Add(TimeSpan.FromHours(1)),
                 SigningCredentials = new SigningCredentials(

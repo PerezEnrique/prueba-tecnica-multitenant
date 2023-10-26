@@ -36,6 +36,18 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
                     slugTenant = organization.SlugTenant 
             });
         }
+
+        public async Task<Organization?> Get(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+
+            var sql = "SELECT * FROM Organizations WHERE Id = @id";
+
+            return await connection.QuerySingleOrDefaultAsync<Organization>(
+                sql,
+                new { id }
+            );
+        }
     }
 
 }
