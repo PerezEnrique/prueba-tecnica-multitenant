@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PruebaTecnicaMultitenant.Src.Application.UseCases;
 using PruebaTecnicaMultitenant.Src.Domain.Services;
@@ -19,18 +20,19 @@ builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<OrganizationsUseCases>();
 builder.Services.AddTransient<UsersUseCases>();
 
-builder.Services.AddAuthentication("jwt").AddJwtBearer(opt => 
-{
-    opt.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt => 
     {
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:JwtKey"])
-        ),
-        ValidateLifetime = true, 
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:JwtKey"])
+            ),
+            ValidateLifetime = true, 
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 var app = builder.Build();
 

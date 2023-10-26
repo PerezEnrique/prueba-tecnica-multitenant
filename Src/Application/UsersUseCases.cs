@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using PruebaTecnicaMultitenant.Src.Infrastructure.Utils.Constants;
 
 namespace PruebaTecnicaMultitenant.Src.Application.UseCases
 {
@@ -26,7 +27,7 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             return await _usersService.Create(user);
         }
 
-        public SecurityToken GenerateToken(User user)
+        public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:JwtKey"]);
@@ -34,7 +35,7 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             {
                 Subject = new ClaimsIdentity(new []{
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                    new Claim("organizationId", user.OrganizationId.ToString())
+                    new Claim(ClaimNames.OrganizationId, user.OrganizationId.ToString())
                 }),
                 Expires = DateTime.UtcNow.Add(TimeSpan.FromHours(1)),
                 SigningCredentials = new SigningCredentials(
@@ -43,7 +44,8 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
                     )
             };
 
-            return tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public async Task<User?> Get(int id)
