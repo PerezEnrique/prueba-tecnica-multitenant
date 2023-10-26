@@ -51,6 +51,8 @@ app.UseDbInitialization();
 
 app.UseAuthorization();
 
+app.UseTenantId();
+
 app.MapControllers();
 
 app.Run();
