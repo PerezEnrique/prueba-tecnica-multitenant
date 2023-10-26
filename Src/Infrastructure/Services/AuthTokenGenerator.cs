@@ -1,32 +1,21 @@
-using BC = BCrypt.Net.BCrypt;
-using PruebaTecnicaMultitenant.Src.Domain.Entities;
-using PruebaTecnicaMultitenant.Src.Domain.Services;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using PruebaTecnicaMultitenant.Src.Application.Services;
+using PruebaTecnicaMultitenant.Src.Domain.Entities;
 using PruebaTecnicaMultitenant.Src.Infrastructure.Utils.Constants;
 
-namespace PruebaTecnicaMultitenant.Src.Application.UseCases
+namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
 {
-    public class UsersUseCases
+    public class AuthTokenGenerator : IAuthTokenGenerator
     {
         private readonly IConfiguration _configuration;
-        private readonly IUsersService _usersService;
 
-        public UsersUseCases(IUsersService usersService, IConfiguration configuration)
+        public AuthTokenGenerator(IConfiguration configuration)
         {
             _configuration = configuration;
-            _usersService = usersService;
         }
-
-        public async Task<int> Create(User user)
-        {
-            user.Password = BC.HashPassword(user.Password);
-
-            return await _usersService.Create(user);
-        }
-
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -47,23 +36,6 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
-        public async Task<User?> Get(int id)
-        {
-            return await _usersService.Get(id);
-        }
-
-        public async Task<User> LogIn(string email, string password)
-        {
-            var user = await _usersService.GetByEmail(email);
-            if (user == null)
-                throw new Exception("Login failed");
-
-            var validPassword = BC.Verify(password, user.Password);
-            if (!validPassword)
-                throw new Exception("Login failed");
-
-            return user;            
-        }
     }
+
 }
