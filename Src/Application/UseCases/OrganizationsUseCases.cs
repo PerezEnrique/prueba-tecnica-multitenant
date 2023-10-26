@@ -16,21 +16,13 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
 
         public async Task<int> CreateOrganization(Organization organization)
         {
-            try
-            {
-                var createdOrganizationId = await _organizationsService.Create(organization);
+            var createdOrganizationId = await _organizationsService.Create(organization);
 
-                await _dbMigrationsService.CreateTenantDb(organization.SlugTenant);
+            await _dbMigrationsService.CreateTenantDb(organization.SlugTenant);
 
-                return createdOrganizationId;
+            return createdOrganizationId;
                 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("There was an error during the organization creation process", ex);
-            }
         }
-
         public async Task<Organization?> Get(int id)
         {
             return await _organizationsService.Get(id);
