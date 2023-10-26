@@ -82,7 +82,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
                     Name = createProductDto.Name,
                 };
 
-                await _productsUseCases.Create(product);         
+                await _productsUseCases.Update(id, product);         
 
                 return product.AsDto();
             }
