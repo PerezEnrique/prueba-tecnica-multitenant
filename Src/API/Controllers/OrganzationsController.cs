@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PruebaTecnicaMultitenant.Src.Application.UseCases;
 using PruebaTecnicaMultitenant.Src.Domain.Entities;
+using PruebaTecnicaMultitenant.Src.Infrastructure;
+using PruebaTecnicaMultitenant.Src.Infrastructure.Utils;
 
 namespace PruebaTecnicaMultitenant.Src.API.Controllers
 {
@@ -15,16 +17,41 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Organization>> Add(Organization organization)
+        public async Task<ActionResult<OrganizationDto>> Create(CreateOrganizationDto createOrganizationDto)
         {
-            var id = await _organizationsUseCases.CreateOrganization(organization);
+            try
+            {                
+                var organization = new Organization()
+                {
+                    Name = createOrganizationDto.Name,
+                    SlugTenant = createOrganizationDto.SlugTenant,
+                };
 
-            //Temporarily to test project pipeline
-                return new Organization(){
-                Id = id,
-                Name = organization.Name,
-                SlugTenant = organization.SlugTenant,
-            };
+                organization.Id = await _organizationsUseCases.CreateOrganization(organization);
+
+                return CreatedAtAction(nameof(Get), new { id = organization.Id }, organization.AsDto());
+            }
+            catch (Exception)
+            {
+                return Problem(statusCode: StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<OrganizationDto>> Get(int id)
+        {
+            try
+            {
+                var organization = await _organizationsUseCases.Get(id);
+                if(organization == null)
+                    return NotFound();
+
+                return organization.AsDto();
+            }
+            catch (Exception)
+            {
+                return Problem(statusCode: StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

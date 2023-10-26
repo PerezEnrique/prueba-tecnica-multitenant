@@ -29,5 +29,10 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
                 throw new Exception("There was an error during the organization creation process", ex);
             }
         }
+
+        public async Task<Organization?> Get(int id)
+        {
+            return await _organizationsService.Get(id);
+        }
     }
 }
