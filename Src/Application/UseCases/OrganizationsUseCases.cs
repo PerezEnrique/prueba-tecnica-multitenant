@@ -14,6 +14,7 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             _organizationsService = organizationsService;
         }
 
+        //Crea una organización y una base de datos para los productos de dicha organización
         public async Task<int> CreateOrganization(Organization organization)
         {
             var createdOrganizationId = await _organizationsService.Create(organization);
@@ -23,6 +24,8 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             return createdOrganizationId;
                 
         }
+
+        //Devuelve una organzación dependiendo de su id
         public async Task<Organization?> Get(int id)
         {
             return await _organizationsService.Get(id);

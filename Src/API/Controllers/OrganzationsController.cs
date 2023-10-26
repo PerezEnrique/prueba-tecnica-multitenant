@@ -16,6 +16,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             _organizationsUseCases = organizationsUseCases;
         }
 
+        //POST http://host:puerto/organizations
         [HttpPost]
         public async Task<ActionResult<OrganizationDto>> Create(CreateOrganizationDto createOrganizationDto)
         {
@@ -37,6 +38,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             }
         }
 
+        //GET http://host:puerto/organizations?id=1
         [HttpGet]
         public async Task<ActionResult<OrganizationDto>> Get(int id)
         {

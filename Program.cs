@@ -49,11 +49,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseDbInitialization();
+app.UseDbInitialization(); //Crea las tablas de la base de datos master de organizaciones y usuarios
 
-app.UseAuthorization();
+app.UseAuthorization(); 
 
-app.UseTenantId();
+app.UseTenantId(); //Obtiene el slug de la ruta para establecer conexión con la base de datos correspondiente
 
 app.MapControllers();
 

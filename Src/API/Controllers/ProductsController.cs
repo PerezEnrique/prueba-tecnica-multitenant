@@ -20,6 +20,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             _productsUseCases = productsUseCases;
         }
 
+        //POST http://host:puerto/<slug>/Products - Requiere header de authorization con token valido
         [HttpPost]
         public async Task<ActionResult<ProductDto>> Create(CreateProductDto createProductDto)
         {
@@ -40,6 +41,8 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
                 return Problem(statusCode: StatusCodes.Status500InternalServerError);
             }
         }
+
+         //DELETE http://host:puerto/<slug>/Products?=<id> - Requiere header de authorization con token valido
         [HttpDelete()]
         public async Task<IActionResult> Delete(int id)
         {
@@ -54,6 +57,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             }
         }
         
+        //GET http://host:puerto/<slug>/Products?=<id> - Requiere header de authorization con token valido
         [HttpGet()]
         public async Task<ActionResult<ProductDto>> Get(int id)
         {
@@ -71,6 +75,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             }
         }
 
+        //PUT http://host:puerto/<slug>/Products?=<id> - Requiere header de authorization con token valido
         [HttpPut()]
         public async Task<ActionResult<ProductDto>> Update(int id, CreateProductDto createProductDto)
         {

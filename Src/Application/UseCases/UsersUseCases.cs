@@ -21,6 +21,7 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             _usersService = usersService;
         }
 
+        //Crea un nuevo usuario validando la existencia de la organización y hasheando su contraseña
         public async Task<int> Create(User user)
         {
             var organization = await _organizationsService.Get(user.Organization.Id);
@@ -34,16 +35,19 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             return await _usersService.Create(user);
         }
 
+        //Genera token de authorización
         public string GenerateToken(User user)
         {
             return _tokenGenerator.GenerateToken(user);
         }
 
+        //Devuelve un usuario dependiendo de su id
         public async Task<User?> Get(int id)
         {
             return await _usersService.Get(id);
         }
 
+        //Valida el inicio de sesión de un usuario
         public async Task<User> LogIn(string email, string password)
         {
             var user = await _usersService.GetByEmail(email);

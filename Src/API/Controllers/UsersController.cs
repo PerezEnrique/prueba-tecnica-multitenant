@@ -21,6 +21,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             _usersUseCases = usersUseCases;
         }
 
+        //POST http://host:puerto/users
         [HttpPost]
         public async Task<ActionResult<UserDto>> Create(CreateUserDto createUserDto)
         {
@@ -49,6 +50,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             }
         }
 
+        //GET http://host:puerto/users?id=<id>
         [HttpGet]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
@@ -66,6 +68,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             }
         }
 
+        //POST http://host:puerto/users/login
         [HttpPost("/users/login")]
         public async Task<ActionResult<UserDto>> LogIn(UserCredentialsDto userCredentials)
         {
