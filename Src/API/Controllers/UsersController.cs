@@ -66,7 +66,7 @@ namespace PruebaTecnicaMultitenant.Src.API.Controllers
             }
         }
 
-        [HttpPost("/login")]
+        [HttpPost("/users/login")]
         public async Task<ActionResult<UserDto>> LogIn(UserCredentialsDto userCredentials)
         {
             try
