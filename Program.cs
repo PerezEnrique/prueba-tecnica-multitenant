@@ -1,3 +1,5 @@
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using PruebaTecnicaMultitenant.Src.Application.UseCases;
 using PruebaTecnicaMultitenant.Src.Domain.Services;
 using PruebaTecnicaMultitenant.Src.Infrastructure.Middlewares;
@@ -13,7 +15,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IDbMigrationsService, DbMigrationsService>();
 builder.Services.AddTransient<IOrganizationsService, OrganizationsService>();
+builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<OrganizationsUseCases>();
+builder.Services.AddTransient<UsersUseCases>();
+
+builder.Services.AddAuthentication("jwt").AddJwtBearer(opt => 
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:JwtKey"])
+        ),
+        ValidateLifetime = true, 
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 var app = builder.Build();
 
@@ -27,8 +44,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseDbInitialization();
-
-app.MapGet("/", () => "Listo!");
 
 app.UseAuthorization();
 
