@@ -28,7 +28,8 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
                         Users (
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             Email TEXT NOT NULL,
-                            Password TEXT NOT NULL
+                            Password TEXT NOT NULL,
+                            OrganizationId INTEGER
                         );";
 
             await connection.ExecuteAsync(sql);
