@@ -1,4 +1,4 @@
-namespace PruebaTecnicaMultitenant.Src.Domain.Services
+namespace PruebaTecnicaMultitenant.Src.Application.Services
 {
     public interface IDbMigrationsService
     {

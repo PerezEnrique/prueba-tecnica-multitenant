@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
-using PruebaTecnicaMultitenant.Src.Domain.Services;
+using PruebaTecnicaMultitenant.Src.Application.Services;
 
 namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
 {

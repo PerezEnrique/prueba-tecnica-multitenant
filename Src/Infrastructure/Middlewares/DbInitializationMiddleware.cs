@@ -1,4 +1,4 @@
-using PruebaTecnicaMultitenant.Src.Domain.Services;
+using PruebaTecnicaMultitenant.Src.Application.Services;
 
 namespace PruebaTecnicaMultitenant.Src.Infrastructure.Middlewares
 {
