@@ -58,7 +58,16 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
                         LEFT JOIN Organizations o ON u.OrganizationId = o.Id
                         WHERE u.Id = @id";
 
-            return await connection.QuerySingleOrDefaultAsync<User>(sql, new { id });
+            var users = await connection.QueryAsync<User, Organization, User>(
+                sql,
+                (user, organization) => {
+                    user.Organization = organization;
+                    return user;
+                },
+                new { id },
+                splitOn: "Id");
+
+            return users.FirstOrDefault();
         }
 
 
@@ -78,7 +87,16 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Services
                         LEFT JOIN Organizations o ON u.OrganizationId = o.Id
                         WHERE u.email = @email";
             
-            return await connection.QuerySingleOrDefaultAsync<User>(sql, new { email });
+            var users = await connection.QueryAsync<User, Organization, User>(
+                sql,
+                (user, organization) => {
+                    user.Organization = organization;
+                    return user;
+                },
+                new { email },
+                splitOn: "Id");
+
+            return users.FirstOrDefault();
         }
     }
 }

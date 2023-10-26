@@ -27,6 +27,8 @@ namespace PruebaTecnicaMultitenant.Src.Application.UseCases
             if(organization == null)
                 throw new Exception("User creation failed. Organization not found");
 
+            user.Organization = organization;
+
             user.Password = BC.HashPassword(user.Password);
 
             return await _usersService.Create(user);
