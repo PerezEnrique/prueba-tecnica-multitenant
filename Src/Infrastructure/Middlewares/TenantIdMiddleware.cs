@@ -13,7 +13,7 @@ namespace PruebaTecnicaMultitenant.Src.Infrastructure.Middlewares
         public async Task Invoke(HttpContext context, IServiceProvider serviceProvider)
         {
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            var slugTenant = context.Request.Path.ToString().Split("/")[1];
+            var slugTenant = context.GetRouteValue("slugTenant")?.ToString();
 
             var baseString = configuration.GetConnectionString("TenantProductsBase");
             var connectionString = string.Format(baseString, slugTenant);
