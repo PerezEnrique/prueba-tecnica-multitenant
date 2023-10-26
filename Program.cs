@@ -18,8 +18,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IAuthTokenGenerator, AuthTokenGenerator>();
 builder.Services.AddTransient<IDbMigrationsService, DbMigrationsService>();
 builder.Services.AddTransient<IOrganizationsService, OrganizationsService>();
+builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<OrganizationsUseCases>();
+builder.Services.AddTransient<ProductsUseCases>();
 builder.Services.AddTransient<UsersUseCases>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

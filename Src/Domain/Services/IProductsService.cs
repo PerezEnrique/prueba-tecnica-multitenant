@@ -8,6 +8,6 @@ namespace PruebaTecnicaMultitenant.Src.Domain.Services
         Task<int> Create(Product product);
         Task Delete(int id);
         Task<Product?> Get(int id);
-        Task<int> Update(int id, Product product);
+        Task Update(int id, Product product);
     }
 }
